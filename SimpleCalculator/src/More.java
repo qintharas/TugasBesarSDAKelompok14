@@ -11,8 +11,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Stack;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;//p
 import java.awt.event.ActionEvent;
+
 
 // TODO: add checking validity of the expression when clicking equals
 // TODO: fix entering with keyboard
@@ -28,9 +29,10 @@ public class More extends KeyAdapter {
 
     private static final int BUTTON_WIDTH = 80;
     private static final int BUTTON_HEIGHT = 40;
+//    private boolean minus = false;
 
-    private static final char[] validChars = {0,1,2,3,4,5,6,7,8,9,'(',')','+','-','x','÷', '%', Evaluator.SQUARE, Evaluator.SQRT,Evaluator.SIN,Evaluator.COS,Evaluator.TAN, 
-    Evaluator.LOG};
+    private static final char[] validChars = {0,1,2,3,4,5,6,7,8,9,'(',')','+','-','x','÷', '%', Evaluator.SQUARE, Evaluator.CUBE, Evaluator.SQRT,Evaluator.SIN,Evaluator.COS,Evaluator.TAN, 
+    Evaluator.LOG, Evaluator.LN};
 
     private JTextArea displayArea; // Results shown here.
     private JTextField inputField; // Expressions entered here.
@@ -141,11 +143,11 @@ public class More extends KeyAdapter {
         delete.addActionListener(e -> deleteClicked());
         topButtons.add(delete);
         
-        JButton percent = new JButton("%");
-        percent.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        percent.setBackground(Color.WHITE);
-        percent.addActionListener(e -> percentClicked());
-        topButtons.add(percent);
+        JButton sqrt = new JButton("<html><sup>2</sup>√</html>");
+        sqrt.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        sqrt.setBackground(Color.WHITE);
+        sqrt.addActionListener(e -> sqrtClicked());
+        topButtons.add(sqrt);
 
         JButton square = new JButton("<html>X<sup>2</sup></html>");
         square.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -196,21 +198,21 @@ public class More extends KeyAdapter {
         deleteAll.setBackground(Color.WHITE);
         ImageIcon deleteACIcon = new ImageIcon(getClass().getResource("ac.png"));
         deleteAll.setIcon(deleteACIcon);
-        deleteAll.addActionListener(e -> deleteACClicked());
+//        deleteAll.addActionListener(e -> deleteACClicked());
+        deleteAll.addActionListener(e -> clearInputField());//p
         topButtons.add(deleteAll);
+
+        JButton root = new JButton("<html><sup>y</sup>√X</html>");
+        root.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        root.setBackground(Color.WHITE);
+        root.addActionListener(e -> operatorClicked("R"));
+        topButtons.add(root);
         
-        JButton sqrt = new JButton("√");
-        sqrt.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        sqrt.setBackground(Color.WHITE);
-        sqrt.addActionListener(e -> sqrtClicked());
-        topButtons.add(sqrt);
-        
-        /*Button Kosong (fungsi nya otw)*/
-        JButton pangkatTiga = new JButton("<html>X<sup>3</sup></html>");
-        pangkatTiga.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        pangkatTiga.setBackground(Color.WHITE);
-//        pangkatTiga.addActionListener(e -> squareClicked());
-        topButtons.add(pangkatTiga);
+        JButton cube = new JButton("<html>X<sup>3</sup></html>");
+        cube.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        cube.setBackground(Color.WHITE);
+        cube.addActionListener(e -> operatorClicked("P3"));
+        topButtons.add(cube);
 
         JButton cos = new JButton("cs");
         cos.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -257,20 +259,19 @@ public class More extends KeyAdapter {
         undo.setIcon(undoIcon);
         undo.addActionListener(e -> undoClicked());
         topButtons.add(undo);
-
-        /*Button Kosong*/
-        JButton apaIni = new JButton("#");
-        apaIni.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        apaIni.setBackground(Color.WHITE);
-//        pangkatTiga.addActionListener(e -> squareClicked());
-        topButtons.add(apaIni);
         
-        /*Button Kosong*/
-        JButton kosong = new JButton("#");
-        kosong.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        kosong.setBackground(Color.WHITE);
-//        pangkatTiga.addActionListener(e -> squareClicked());
-        topButtons.add(kosong);
+        JButton ln = new JButton("ln");
+        ln.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        ln.setBackground(Color.WHITE);
+        ln.addActionListener(e -> lnClicked());
+        ln.setForeground(Color.BLACK);
+        topButtons.add(ln);
+        
+        JButton pow = new JButton("<html>x<sup>n</sup></html>");
+        pow.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        pow.setBackground(Color.WHITE);
+        pow.addActionListener(e -> operatorClicked("P"));
+        topButtons.add(pow);        
         
         JButton tan = new JButton("tn");
         tan.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -326,12 +327,12 @@ public class More extends KeyAdapter {
         });
         bottomRow.add(less);
         
-        /*Button Kosong*/
-        JButton zonk = new JButton("#");
-        zonk.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        zonk.setBackground(Color.WHITE);
-//        pangkatTiga.addActionListener(e -> squareClicked());
-        bottomRow.add(zonk);
+        JButton percent = new JButton("%");
+        percent.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        percent.setBackground(Color.WHITE);
+        percent.addActionListener(e -> percentClicked());
+        bottomRow.add(percent);
+
                
         JButton pi = new JButton();
         pi.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -417,7 +418,7 @@ public class More extends KeyAdapter {
      * TODO: add more checks what to delete.
      */
     //p
-    private void deleteACClicked() {
+    private void deleteACClicked() {//diganti pakai clearInputField()
         // Delete all character.
         String str = inputField.getText();
         if (!str.equals("")) {
@@ -443,6 +444,19 @@ public class More extends KeyAdapter {
     private void logClicked() {
     if (!canEnterSymbol()) {
             inputField.setText(inputField.getText() + "log(");
+            bracketCounter++;
+        }
+        else {
+            showWarning();
+        }
+    }
+    
+    /**
+     * ln
+     */
+    private void lnClicked() {
+    if (!canEnterSymbol()) {
+            inputField.setText(inputField.getText() + "ln(");
             bracketCounter++;
         }
         else {
@@ -500,6 +514,17 @@ public class More extends KeyAdapter {
             showWarning();
         }
     }
+    /**
+     * Adds a cube to the expression.
+     *
+    private void cubeClicked() {//p
+        if (canEnterSymbol()) {
+            inputField.setText(inputField.getText() + "^3");
+        }
+        else {
+            showWarning();
+        }
+    }*/
 
     /**
      * Adds the symbol for square root as "sqrt(" to the expression.
@@ -561,7 +586,7 @@ public class More extends KeyAdapter {
         Evaluator evaluator = new Evaluator(str);
         String result = evaluator.getResult();
         if (result.startsWith("-")) {
-            result = "(" + result + ")";
+            result = "(" + result + ")";//p
         }
         updateDisplayField(str, result);
         clearInputField();
