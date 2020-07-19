@@ -4,7 +4,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Stack;
-import java.awt.event.ActionListener;//p
+import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 // TODO: add checking validity of the expression when clicking equals
@@ -117,8 +117,6 @@ public class SimpleMode extends KeyAdapter {
         JPanel bottomRow = new JPanel();
         bottomRow.setLayout(new FlowLayout());
 
-//        JPanel buttons = new JPanel();
-//        buttons.setLayout(new GridLayout(0, 1, 0, 0));
 
         
         // button row ke-1:
@@ -491,7 +489,7 @@ public class SimpleMode extends KeyAdapter {
         if (c == '+' ||
                 c == '-' ||
                 c == 'x' ||
-                c == '÷') {
+                c == '/') {
             operatorClicked("" + c);
         }
         else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
