@@ -14,20 +14,19 @@ import java.util.List;
  * The tree is then traversed to produce a single value result (type double).
  *
  * @author Luka Kralj
- * @version 30 March 2018
+ * @author Qinthara, Putri
  */
 public class Evaluator {
     public static final char SQRT = 'V';
     public static final char SQUARE = 'S';
-    public static final char CUBE = 'B';//p
-    public static final char SIN = 'N';//q
+    public static final char CUBE = 'B';
+    public static final char SIN = 'N';
     public static final char COS = 'C';
     public static final char TAN = 'T';
     public static final char LOG = 'L';
-    public static final char LN = 'O';//p
-//    public static final char MINPLUS = 'M';
+    public static final char LN = 'O';
     
-    private static final char[] nonNumeric = {'+', '-', '÷', 'x', '%', '(', ')', SQRT, SQUARE, SIN, COS, TAN, LOG, LN /*, MINPLUS*/};//pq
+    private static final char[] nonNumeric = {'+', '-', '÷', 'x', '%', '(', ')', SQRT, SQUARE, SIN, COS, TAN, LOG, LN };
     private BinaryTree tree;
 
     private String result;
