@@ -538,46 +538,6 @@ public class More extends KeyAdapter {
             showWarning();
         }
     }
-    
-/**    private void plusminClicked() {
-        
-        if(minus == false ){    //&& !canEnterSymbol()
-            String expression = inputField.getText();
-            boolean thereIsOperator = false;
-            
-            for (int i = expression.length()-1 ; i >= 0 ; i--){
-                char c = expression.charAt(i);
-                if(c == '+' || c == '-' || c == 'x' || c=='÷'|| c=='('){
-                    expression =  expression.substring(0, i+1) + "-" + expression .substring(i+1);
-                    thereIsOperator=true;
-                    break;
-                }
-            }
-            
-            if(!thereIsOperator){
-                expression = "-" + expression.substring(0,expression.length());
-            }
-            
-            inputField.setText(expression);
-            //inputField.setText(inputField.getText() + "~(");
-            bracketCounter++;
-            enableDecimalPoint();
-            minus = true;
-        }else if (minus==true ){    //&& !canEnterSymbol()
-            String expression = inputField.getText();
-            for (int i = expression.length()-1 ; i >= 0 ; i--){
-                if(expression.charAt(i) == '-'){
-                    expression =  expression.substring(0, i) + expression .substring(i+1);
-                    break;
-                }
-            }
-            //updateInputField(expression);
-            inputField.setText(expression);
-            minus = false;
-        }else {
-            showWarning();
-        }  
-    }*/
 
     /**
      * Decimal point was clicked. It is added to the expression if and only if the expression would still be valid.
