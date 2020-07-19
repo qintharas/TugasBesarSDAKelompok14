@@ -4,7 +4,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Stack;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;//p
 import java.awt.event.ActionEvent;
 
 // TODO: add checking validity of the expression when clicking equals
@@ -171,7 +171,8 @@ public class SimpleMode extends KeyAdapter {
         deleteAll.setBackground(Color.WHITE);
         ImageIcon deleteACIcon = new ImageIcon(getClass().getResource("ac.png"));
         deleteAll.setIcon(deleteACIcon);
-        deleteAll.addActionListener(e -> deleteACClicked());
+//        deleteAll.addActionListener(e -> deleteACClicked());
+        deleteAll.addActionListener(e -> clearInputField());//p
         topButtons.add(deleteAll);
 
         JButton four = new JButton("4");
@@ -333,7 +334,7 @@ public class SimpleMode extends KeyAdapter {
      * TODO: add more checks what to delete.
      */
     //p
-    private void deleteACClicked() {
+    private void deleteACClicked() {//diganti pakai clearInputField()
         // Delete all character.
         String str = inputField.getText();
         if (!str.equals("")) {
@@ -386,7 +387,7 @@ public class SimpleMode extends KeyAdapter {
         Evaluator evaluator = new Evaluator(str);
         String result = evaluator.getResult();
         if (result.startsWith("-")) {
-            result = "(" + result + ")";
+            result = "(" + result + ")";//p
         }
         updateDisplayField(str, result);
         clearInputField();
