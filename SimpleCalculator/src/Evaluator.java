@@ -19,12 +19,15 @@ import java.util.List;
 public class Evaluator {
     public static final char SQRT = 'V';
     public static final char SQUARE = 'S';
+    public static final char CUBE = 'B';//p
     public static final char SIN = 'N';//q
     public static final char COS = 'C';
     public static final char TAN = 'T';
     public static final char LOG = 'L';
+    public static final char LN = 'O';//p
+//    public static final char MINPLUS = 'M';
     
-    private static final char[] nonNumeric = {'+', '-', '÷', 'x', '%', '(', ')', SQRT, SQUARE, SIN, COS, TAN, LOG};//q
+    private static final char[] nonNumeric = {'+', '-', '÷', 'x', '%', '(', ')', SQRT, SQUARE, SIN, COS, TAN, LOG, LN /*, MINPLUS*/};//pq
     private BinaryTree tree;
 
     private String result;
@@ -89,7 +92,7 @@ public class Evaluator {
             if (isUnary(c)) {
                 // If the operator is a unary operator the node will only have one child.
                 String newExpression = "";
-                if (c == SQRT || c == SIN || c == COS || c == TAN || c == LOG) {//q
+                if (c == SQRT || c == SIN || c == COS || c == TAN || c == LOG || c == LN) {//qp
                     newExpression = expression.substring(index + 1, expression.length());
                 }
                 else {
@@ -136,7 +139,7 @@ public class Evaluator {
             char c = str.charAt(i);
             if (c == '(') { bracketCounter++; }
             else if (c == ')') { bracketCounter--; }
-            else if ((c == 'x' || c == '÷') && bracketCounter == 0) {
+            else if ((c == 'x' || c == '÷' ||  c == 'B' || c == 'P' || c == 'R') && bracketCounter == 0) {
                 indexes.add(i);
             }
         }
@@ -169,7 +172,7 @@ public class Evaluator {
      * @return True if the operator is unary operator.
      */
     private boolean isUnary(char operator) {
-        return operator == '%' || operator == SQRT || operator == SQUARE || operator == SIN || operator == COS || operator == TAN || operator == LOG;//q
+        return operator == '%' || operator == SQRT || operator == SQUARE ||  operator == SIN || operator == COS || operator == TAN || operator == LOG || operator == LN;
     }
 
     /**
@@ -190,7 +193,7 @@ public class Evaluator {
             char c = expression.charAt(index);
             if (isUnary(c)) {
                 String newExpression = "";
-                if (c == SQRT || c == SIN || c == COS || c == TAN || c == LOG) {//q
+                if (c == SQRT || c == SIN || c == COS || c == TAN || c == LOG || c == LN) {//pq
                     newExpression = expression.substring(index + 1, expression.length());
                 }
                 else {
@@ -232,6 +235,12 @@ public class Evaluator {
                         return Math.tan(evaluateTree(v.getLeft())*(Math.PI/180));
                     case LOG:
                         return Math.log10(evaluateTree(v.getLeft()));
+                    case LN:
+                        return Math.log(evaluateTree(v.getLeft()));//p
+/*                    case MINPLUS:
+                        double j = evaluateTree(v.getLeft());
+                        return -1*j;
+*/
                     default:
                         break;
                 }
@@ -246,6 +255,15 @@ public class Evaluator {
                         return evaluateTree(v.getLeft()) * evaluateTree(v.getRight());
                     case '÷':
                         return evaluateTree(v.getLeft()) / evaluateTree(v.getRight());
+                    case 'B':
+                        double i = Math.pow(evaluateTree(v.getLeft()), 3);//p
+                        return i;
+                    case 'P':
+                        double j = Math.pow(evaluateTree(v.getLeft()), evaluateTree(v.getRight()));
+                        return j;
+                    case 'R':
+                        double r = Math.pow(evaluateTree(v.getLeft()), 1.0 / evaluateTree(v.getRight()));
+                        return r;
                     default:
                         break;
                 }
@@ -264,6 +282,8 @@ public class Evaluator {
     private String replace(String str){
         str = str.replaceAll("sqrt", "" + SQRT);
         str = str.replaceAll("log", "" + LOG);
+        str = str.replaceAll("ln", "" + LN);//p
+//        str = str.replaceAll("-", "" + MINPLUS);
 
         StringBuffer newStr = new StringBuffer();
         for (int i = 0; i < str.length(); i++) {
