@@ -23,13 +23,12 @@ import java.awt.event.ActionEvent;
  * This class displays a simple calculator.
  *
  * @author Luka Kralj
- * @version 30 March 2018
+ * @author Qinthara, Putri
  */
 public class More extends KeyAdapter {
 
     private static final int BUTTON_WIDTH = 80;
     private static final int BUTTON_HEIGHT = 40;
-//    private boolean minus = false;
 
     private static final char[] validChars = {0,1,2,3,4,5,6,7,8,9,'(',')','+','-','x','÷', '%', Evaluator.SQUARE, Evaluator.CUBE, Evaluator.SQRT,Evaluator.SIN,Evaluator.COS,Evaluator.TAN, 
     Evaluator.LOG, Evaluator.LN};
@@ -126,9 +125,6 @@ public class More extends KeyAdapter {
 
         JPanel bottomRow = new JPanel();
         bottomRow.setLayout(new FlowLayout());
-
-//        JPanel buttons = new JPanel();
-//        buttons.setLayout(new GridLayout(0, 1, 0, 0));
 
         
         // button row ke-1:
@@ -322,7 +318,7 @@ public class More extends KeyAdapter {
             public void actionPerformed(ActionEvent e) {
                 SimpleMode simple = new SimpleMode();
                 frame.setVisible(false);
-//                all.setVisible(false);
+
             }
         });
         bottomRow.add(less);
@@ -517,7 +513,7 @@ public class More extends KeyAdapter {
     /**
      * Adds a cube to the expression.
      *
-    private void cubeClicked() {//p
+    private void cubeClicked() {
         if (canEnterSymbol()) {
             inputField.setText(inputField.getText() + "^3");
         }
@@ -690,7 +686,7 @@ public class More extends KeyAdapter {
         if (c == '+' ||
                 c == '-' ||
                 c == 'x' ||
-                c == '÷') {
+                c == '/') {
             operatorClicked("" + c);
         }
         else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
